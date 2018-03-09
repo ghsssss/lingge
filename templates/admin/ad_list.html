@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %} {{ adg.name }}{% endblock %}
+{% block content %}
+    {% if adg.id !=2  %}
+    <a class="ui button" href="/admin/ad_add/{{ adg.id }}">添加</a>
+    {% endif %}
+    <table class="ui table">
+        <thead>
+        <tr>
+            <th>排序</th>
+            <th>图片</th>
+            <th>链接</th>
+            <th> </th>
+            <th> </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ad in ads %}
+            <tr>
+              <td>{{ ad.index }}</td>
+                <td><img class="ui  image" src=" {{ ad.img }}" width="120"></td>
+                <td>{{ ad.url }}</td>
+                <td>{% if adg.id !=2  %} <a class="ui black button" href="{{ url_for('admin.ad_delete',id=ad.id) }}">删除</a>{% endif %}</td>
+             <td><a class="ui black button" href="{{ url_for('admin.ad_update',id=ad.id) }}">更新</a></td>
+            </tr>
+
+
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

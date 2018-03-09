@@ -1,0 +1,17 @@
+{% for  g in gs -%}
+
+<div class="efzy left{% if loop.index is divisibleby(2) %} ef_r {% endif %}">
+    <div class="top">
+        <a href="/goods/{{ g.id }}{% if request.args.get("q") != None %}?sellerId={{ g.sellerId }}&zkPrice={{ g.price }}{% endif %}"><img src="{{ g.main_img }}{% if g.platform_type == 'taobao' or g.platform_type=='tmall' %}_300x300.jpg{% endif %}"></a>
+    </div>
+    <p>
+    <div class="p01">领券减{{ g.coupon_amount | coonvert_dec }}元</div>
+    <span class="p1 right">已抢{{ g.sell_count }}件</span></p>
+    <p>{{ g.title |  title_t(25) }}</p>
+    <p class="p2"><span class="p0">￥{{ g.price  | coonvert_dec }}&nbsp;</span>券后价:￥<span class="p3">{{ g.after_coupon_price  | coonvert_dec }}</span>
+    </p>
+    <a class="goto" href="/goods/{{ g.id }}{% if request.args.get("q") != None %}?sellerId={{ g.sellerId }}&zkPrice={{ g.price }}{% endif %}"><img src="/static/img/lqgm.png"></a>
+</div>
+
+
+{%- endfor %}

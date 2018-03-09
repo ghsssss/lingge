@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %} 更新广告位{% endblock %}
+{% block content %}
+    <form class="ui form" enctype='multipart/form-data' method="post">
+
+        <div class="field">
+            <label>链接</label>
+            <input type="text" name="url" value="{{ ad.url }}">
+        </div>
+        <div class="field">
+            <img src="{{ ad.img }}"/>
+
+        </div>
+        <div class="field">
+            <label>上传图片</label>
+            <input type="file" name="file">
+        </div>
+     {% if ad.adgroup_id !=2  %}
+        <div class="ui selection dropdown" id="ss">
+            <input type="hidden" name="index" value="{{ ad.index }}">
+            <i class="dropdown icon"></i>
+            <div class="default text">{{ ad.index }}</div>
+            <div class="menu">
+                {% for x in range(10) %}
+                    <div class="item" data-value="{{ x }}">{{ x }}</div>
+                {% endfor %}
+
+
+            </div>
+        </div>
+         {% else %}
+          <input type="hidden" name="index" value="{{ ad.index }}">
+       {% endif %}
+
+
+        <input class="ui button" type="submit">
+    </form>
+    <script>
+        $(function () {
+
+            $('#ss')
+                .dropdown();
+        });
+
+
+    </script>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %} 首页{% endblock %}
+{% block content %}
+
+    <p>宝贝总数 ：{{ total }}</p>
+    <p>有效宝贝总数 ：{{ total2 }}</p>
+
+    <form class="ui form" method="post">
+        <div class="field">
+            <label>站内宝贝搜索</label>
+            <input type="text" name="q">
+            <input type="submit" value="搜索" class="ui button">
+        </div>
+    </form>
+    <table class="ui table">
+        <thead>
+        <tr>
+            <th>主图</th>
+            <th>标题</th>
+            <th>过期时间</th>
+            <th>佣金</th>
+            <th>上/下线</th>
+            <th>删除</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for g in gs %}
+            <tr>
+                <td><img class="ui  image" src="
+                        {{ g.main_img }}{% if g.platform_type == 'taobao' or g.platform_type=='tmall' %}_200x200.jpg{% endif %}"
+                         width="120"></td>
+                <td><a href="/goods/{{ g.id }}">{{ g.title }}</a><br><span>http://m.lingge1987.com/goods/{{ g.id }}</span></td>
+                <td>{{ g.end }}</td>
+                <td>{{ g.commissionRate}}</td>
+
+                <td>       {% if g.status == 1 %}
+                    <a class="ui red button" href="{{ url_for('admin.status_update',id=g.id,status=0) }}">下线</a>
+                {% else %}
+                    <a class="ui green button" href="{{ url_for('admin.status_update',id=g.id,status=1) }}">上线</a>
+                {% endif %}</td>
+                <td><a class="ui black button" href="{{ url_for('admin.goods_delete',id=g.id) }}">删除</a></td>
+            </tr>
+
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% block title %} 数据采集{% endblock %}
+{% block content %}
+
+    <form method="post" class="ui form">
+
+        <div class="field">
+            <label>申请理由</label>
+            <input type="text" name="reason">
+        </div>
+        <div class="field">
+            <label>阿里妈妈cookie</label>
+            <input type="text" name="cookie">
+        </div>
+        <div class="four wide field">
+            <label>佣金比率</label>
+            <input type="text" name="rate" value="0"><span>%以上</span>
+        </div>
+
+        <div class="inline fields">
+            <label>自动审核</label>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="manualAudit" checked="checked" value="0">
+                    <label>是</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="manualAudit" value="1">
+                    <label>否</label>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="field">
+            <label>采集栏目</label>
+
+            <div class="ui selection dropdown">
+                <input type="hidden" name="channel">
+                <i class="dropdown icon"></i>
+                <div class="default text"></div>
+                <div class="menu">
+                    <div class="item" data-value=" ">综合</div>
+                    <div class="item" data-value="couponlist_jiajujiazhuang">家居家装</div>
+                    <div class="item" data-value="couponlist_shumajiadian">数码家电</div>
+                    <div class="item" data-value="couponlist_muying">母婴</div>
+                    <div class="item" data-value="couponlist_shipin">食品</div>
+                    <div class="item" data-value="couponlist_nvzhuang">女装</div>
+                    <div class="item" data-value="couponlist_xiebaopeishi">鞋包配饰</div>
+                    <div class="item" data-value="couponlist_meizhuanggehu">美装个护</div>
+                    <div class="item" data-value="couponlist_nanzhuang">男装</div>
+                    <div class="item" data-value="couponlist_neiyi">内衣</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>目标栏目</label>
+
+            <div class="ui selection dropdown">
+                <input type="hidden" name="topic_id">
+                <i class="dropdown icon"></i>
+                <div class="default text"></div>
+                <div class="menu">
+                    {% for x in topics %}
+                        <div class="item" data-value="{{ x.id }}">{{ x.name }}</div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <button class="ui button" id="bt_start">采集</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="ui button" id="bt_stop">暂停</button>&nbsp;&nbsp;&nbsp;
+    <button class="ui button" id="bt_end">停止</button>
+    <div class="ui indicating progress" id="example5">
+        <div class="bar">
+            <div class="progress"></div>
+        </div>
+        <div class="label">Waiting for you to press button</div>
+    </div>
+
+    <textarea id='log' rows="10" cols="100">
+
+</textarea>
+    <script>
+
+        $(function () {
+            var
+                $progress = $('.ui.progress'),
+                updateEvent,
+                fakeProgress,
+                cookie,
+                reason,
+                item_index = 0,
+                channel,
+                total = 100,
+                topic_id,
+                rate,
+                manualAudit,
+                cango = true,
+                stop = false;
+            $('#btx_stop').on('click', function () {
+                console.log("btxvtx")
+                stop = true;
+                clearInterval(fakeProgress);
+            });
+            $('#bt_end').on('click', function () {
+                stop = false;
+                cango = true;
+                clearInterval(fakeProgress);
+                $progress.progress('reset');
+
+            });
+
+            $('#bt_start').on('click', function () {
+
+                cookie = $("input[name='cookie']").val();
+                reason = $("input[name='reason']").val();
+
+                channel = $("input[name='channel']").val();
+                topic_id = $("input[name='topic_id']").val();
+                rate = $("input[name='rate']").val();
+                manualAudit = $("input[name='manualAudit']").val();
+
+                clearInterval(fakeProgress);
+
+                if (!stop) {
+                    $progress.progress('reset');
+                }
+
+                fakeProgress = setInterval(function () {
+
+                    if (cango) {
+                        $progress.progress('increment');
+
+
+                        if ($progress.progress('is complete')) {
+                            clearInterval(fakeProgress);
+                        }
+
+                        postdata();
+                    }
+                }, 3000);
+
+
+            });
+
+
+            $('.ui.progress')
+                .progress({
+                    duration: 200,
+                    total: 100,
+                    text: {
+                        active: '{value} of {total} done'
+                    }
+                })
+            ;
+
+
+            function postdata() {
+
+                cango = false;
+                var data = {
+                    cookie: cookie,
+                    item_index: item_index,
+                    reason: reason,
+                    item_index: item_index,
+                    channel: channel,
+                    topic_id: topic_id,
+                    rate: rate,
+                    manualAudit: manualAudit
+                };
+
+                $.ajax({
+                    type: "POST",
+                    //   url: '',
+                    data: data,
+                    success: function (d) {
+                        if (total != 0) {
+                            total = d.total;
+                            $progress.progress('set total', total);
+                        }
+                        if (d.message != '采集成功') {
+                            $("#log").prepend(d.message + " 第" + item_index + '个'+ + d.title+'\r\n');
+                        } else {
+
+
+                            $("#log").prepend(d.message + "  第" + item_index + '个 ' + d.title + '，佣金' + d.rate + '\r\n');
+                        }
+                        if (d.next_index != 0) {
+
+                            item_index = d.next_index;
+                            cango = true;
+                        }
+                    }
+                    // dataType: dataType
+                });
+            }
+
+            $('.dropdown')
+                .dropdown();
+        });
+
+
+    </script>
+{% endblock %}

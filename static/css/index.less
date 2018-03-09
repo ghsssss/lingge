@@ -1,0 +1,303 @@
+* {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+img {
+  vertical-align: top;
+  width: 100%;
+}
+
+.text-overflow {
+  display: block; /*内联对象需加*/
+  width: 4.8rem;
+  word-break: keep-all; /* 不换行 */
+  white-space: nowrap; /* 不换行 */
+  overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+  text-overflow: ellipsis; /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+
+.effact {
+  padding-bottom: 0.1rem;
+  color: #ff5208;
+  border-bottom: .05rem solid;
+
+}
+
+a, input {
+  -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
+}
+
+body {
+  font-family: 'helvetica neue', tahoma, 'hiragino sans gb', stheiti, 'wenquanyi micro hei', 'Microsoft YaHei', '宋体', sans-serif;
+  margin: 0 auto;
+  max-width: 10rem;
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  #header {
+    z-index: 1000;
+    top: 0;
+    position: fixed;
+    overflow: hidden;
+    width: 10rem;
+    .search {
+      height: 1.26rem;
+      background: #FF7200;
+      text-align: center;
+      vertical-align: middle;
+      .ss1 {
+        width: 9rem;
+        background: url('/static/img/32137992425031973.png') no-repeat center;
+        background-size: contain;
+        text-align: center;
+        height: 1.3rem;
+        margin-left: 0.5rem;
+        position: relative;
+      }
+      .btn {
+        display: block;
+        width: 0.6rem;
+        height: 0.6rem;
+        position: absolute;
+        top: 0.4rem;
+        z-index: 22;
+      }
+      input {
+        width: 7rem;
+        height: .62rem;
+        outline: 0;
+        font-size: .3rem;
+        position: absolute;
+        left: 1.5rem;
+        top: .35rem;
+        text-align: center;
+        background: #f2f2f2;
+      }
+      input:-ms-input-placeholder {
+        text-align: center;
+      }
+      input::-webkit-input-placeholder {
+        text-align: center;
+      }
+    }
+    .tabs {
+      width: 10rem;
+      background: white;
+      font-size: 0.32rem;
+      height: 0.75rem;
+      line-height: 0.75rem;
+      #header1.swiper-container {
+        width: 10rem;
+        height: 0.75rem;
+        overflow: hidden;
+        background: #fdfdfc;
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+        .swiper-wrapper {
+          .swiper-slide {
+            min-width: 1.2rem !important;
+            text-align: center;
+            background: #fff;
+            padding-left: 0.4rem;
+            padding-right: 0.4rem;
+            a {
+              font-size: 0.3rem;
+            }
+          }
+        }
+      }
+    }
+
+  }
+  #section {
+    .Carousel {
+      .swiper-container {
+        margin: 0 auto;
+        img {
+          height: 4.65rem;
+        }
+      }
+    }
+    margin-top: 2rem;
+    .section1 {
+      overflow: hidden;
+
+      > :first-child {
+        width: 5rem;
+        height: 5rem;
+        float: left;
+      }
+      > :nth-child(2) {
+        width: 5rem;
+        height: 2.5rem;
+        float: right
+      }
+      > :nth-child(3) {
+        width: 2.5rem;
+        height: 2.5rem;
+        float: left;
+      }
+      > :nth-child(4) {
+        width: 2.5rem;
+        height: 2.5rem;
+        float: left;
+      }
+      margin-bottom: -0.2rem;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      .s1 {
+        box-sizing: border-box;
+        border: 1px solid #ddd;
+      }
+    }
+    .section2 {
+      overflow: hidden;
+      margin-top: 0.2rem;
+      margin-bottom: 0.1rem;
+      background: #ddd;
+      img {
+        margin: 0.05rem 0;
+      }
+    }
+    .section3 {
+      min-height: 20rem;
+      font-size: 0.3rem;
+      .sort {
+        .ord_active {
+          background-position: right;
+          padding-right: .3rem;
+          background-position-y: .15rem;
+          background-repeat: no-repeat;
+          background-size: .25rem;
+          background-image: url(/static/img/545422510500123856.png);
+          color: #FF5208;
+          background-origin: border-box;
+        }
+        background: white;
+        margin-bottom: 0.1rem;
+        ul {
+          a {
+            img {
+              vertical-align: middle;
+              width: 10%;
+              margin-left: 0.1rem
+            }
+          }
+          overflow: hidden;
+          > :first-child {
+            border-right: 0.05rem solid #ddd;
+          }
+          > :nth-child(2) {
+            border-right: 0.05rem solid #ddd;
+          }
+          > :nth-child(3) {
+            border-right: 0.05rem solid #ddd;
+          }
+          li {
+            float: left;
+            width: 25%;
+            list-style: none;
+            text-align: center;
+            box-sizing: border-box;
+            margin: 0.2rem 0;
+          }
+        }
+      }
+      .content {
+        overflow: hidden;
+        background: #ddd;
+        .ef_r {
+          float: right;
+
+        }
+        .efzy {
+          width: 4.9rem;
+          margin: 0 0.05rem 0.1rem 0.05rem;
+          background: white;
+          box-sizing: border-box;
+          padding-bottom: 0.15rem;
+
+          .top {
+            overflow: hidden;
+            width: 4.9rem;
+            height: 4.9rem;
+            img {
+              width: 100%;
+            }
+          }
+          p {
+            font-size: 0.33rem;
+            margin: 0.15rem;
+            color: black;
+            overflow: hidden;
+          }
+          .p01 {
+            margin-left: 0.15rem;
+            display: inline-block;
+            color: #FE0000;
+            font-size: 0.3rem;
+            border: 0.03rem solid #FE0000;
+            padding: 0.07rem 0.14rem;
+          }
+          .p0 {
+            display: inline-block;
+            font-size: 0.25rem;
+            color: black;
+          }
+          .p1 {
+            font-size: 0.25rem;
+            color: #8C8C8C;
+            margin-left: 0.3rem;
+            vertical-align: middle;
+            margin-right: 0.15rem;
+            margin-top: 0.15rem;
+          }
+          .p2 {
+            font-size: 0.3rem;
+            float: left;
+            color: #FF0000;
+            margin-left: 0.1rem;
+            .p3 {
+              font-size: 0.359rem;
+              vertical-align: bottom;
+            }
+          }
+          .goto {
+            display: inline-block;
+            width: 0.8rem;
+            height: 0.8rem;
+            float: right;
+            overflow: hidden;
+            margin-right: 0.15rem;
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+
+  }
+  .scollTop {
+    position: fixed;
+    bottom: 0.2rem;
+    right: 0.5rem;
+    z-index: 333;
+    display: none;
+    img {
+      width: 1rem;
+    }
+  }
+}

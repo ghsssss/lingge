@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理系统登陆</title>
+    <script type="text/javascript" src="/static/js/jquery-3.2.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/semantic.min.css" type="text/css"/>
+    <script type="text/javascript" src="/static/js/semantic.min.js"></script>
+</head>
+<body>
+<div class="ui container">
+
+
+    <div class="ui grid center">
+        {% with messages=get_flashed_messages() %}
+            {% if messages %}
+        <div class="ui  message four wide  centered column row">
+            <div class="column "><p>{{ messages[0] }}</p></div>
+        </div>
+            {% endif %}
+        {% endwith %}
+        <div class="row">
+            <div class="four wide  centered column">
+                <form class="ui three form" method="post">
+                    <div class="field">
+                        <label>用户名</label>
+                        <input type="text" name="username">
+                    </div>
+                    <div class="field">
+                        <label>密码</label>
+                        <input type="password" name="password">
+                    </div>
+
+                    <button class="ui button" type="submit">登陆</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

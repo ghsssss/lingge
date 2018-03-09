@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}增加{% endblock %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="/static/css/flatpickr.min.css">
+    <script src="/static/js/flatpickr.min.js"></script>
+    <script src="/static/js/zh.js"></script>
+
+{% endblock %}
+{% block content %}
+
+
+    <form class="ui form" method="post" action="/admin/add">
+        <input type="hidden" name="tid" value="{{ tid }}">
+        <div class="fields">
+            <div class="field">
+                <label>宝贝ID</label>
+                <input type="text" name="item_id" value="{{ data.item_id }}" readonly="readonly">
+            </div>
+            <div class="field">
+                <label>首图</label>
+                <img src="{{ data.main_img }}" width=120/>
+            </div>
+        </div>
+        <div class="field">
+            <label>标题</label>
+            <input type="text" name="title" value="{{ data.title }}">
+        </div>
+        <div class="fields">
+
+            <div class="field three">
+                <label>副标题</label>
+                <input type="text" name="subtitle" value="{{ data.subtitle }}">
+            </div>
+        </div>
+
+        <div class="fields">
+            <div class="field three">
+                <label>平台类型</label>
+                <input type="text" name="platform_type" value="{{ data.platform_type }}" readonly="readonly">
+            </div>
+        </div>
+
+
+        <div class="field">
+            <label>宝贝链接</label>
+            <input type="text" name="url" value="{{ data.url }}" readonly="readonly">
+        </div>
+        <div class="field">
+            <label>现价</label>
+            <input type="text" name="price_text " value="{{ data.price }}">
+        </div>
+        <div class="field">
+            <label>促销类型</label>
+            <input type="text" name="price_type" value="{{ data.price_type }}">
+        </div>
+        <div class="field">
+            <label>原价</label>
+            <input type="text" name="title" value="{{ data.original_price}}">
+        </div>
+
+
+        <div class="field">
+            <label>销量</label>
+            <input type="text" name="sell_count" value="{{ data.sell_count }}" readonly="readonly">
+        </div>
+       <div class="field">
+            <label>优惠券面额</label>
+            <input type="text" name="coupon_amount" value="{{ data.coupon_amount}}" readonly="readonly">
+        </div>
+        <!--
+       <div class="field">
+           <label>开始时间</label>
+           <input id="begin" name="begin" type="text" value="">
+       </div>
+       <div class="field">
+           <label>结束时间</label>
+           <input id="end" name="end" type="text" value="">
+       </div>
+       -->
+        <div class="inline fields">
+            <label for="fruit">状态</label>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="status" checked="" tabindex="0" value="0" class="hidden">
+                    <label>下线</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="status" tabindex="0" value="1" class="hidden">
+                    <label>上线</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="field">
+            <label>淘口令</label>
+            <input name="tpwd" type="text" value="{{ data.tpwd }}">
+        </div>
+        <div class="field">
+            <label>营销链接</label>
+            <input type="text" name="promotion_url" value="{{ data.promotion_url }}">
+        </div>
+
+         <div class="field">
+            <label>开始时间</label>
+            <input name="begin" type="text" value="{{ data.begin }}">
+        </div>
+        <div class="field">
+            <label>结束时间</label>
+            <input type="text" name="end" value="{{ data.end}}">
+        </div>
+
+
+        <button class="ui button" type="submit">增加</button>
+    </form>
+
+    <script>
+        $(function () {
+            $('.ui.radio.checkbox')
+                .checkbox()
+            ;
+            $("#begin").flatpickr({
+                enableTime: true,
+                "locale": "zh"
+            });
+            $("#end").flatpickr({
+                enableTime: true,
+                "locale": "zh"
+            });
+        });
+    </script>
+
+
+{% endblock %}

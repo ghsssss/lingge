@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %} 上传阿里妈妈数据包{% endblock %}
+{% block content %}
+
+    <form class="ui form" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <div class="field">
+            <label>栏目</label>
+            <div class="ui selection dropdown" id="ss">
+                <input type="hidden" name="tid">
+                <i class="dropdown icon"></i>
+                <div class="default text">选择类目</div>
+                <div class="menu">
+                    {% for t in topics %}
+                        <div class="item" data-value="{{ t.id }}">{{ t.name }}</div>
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    <!--
+      <div class="field">
+            <label>申请理由</label>
+
+                 <textarea name="reason">
+
+                 </textarea>
+      </div>
+      <div class="field">
+            <label>阿里妈妈cookie</label>
+                 <textarea name="cookie">
+
+                 </textarea>
+      </div>
+       -->
+       <input class="ui button" type="submit">
+    </form>
+
+    <script>
+        $(function () {
+
+            $('#ss')
+                .dropdown();
+        });
+
+
+    </script>
+{% endblock %}
+

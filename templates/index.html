@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no"/>
+    <meta charset="UTF-8">
+    <title>灵阁优惠券</title>
+    <link href="/static/img/lingge.ico" rel="shortcut icon">
+    <link rel="stylesheet" href="/static/css/index.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/swiper.min.css" type="text/css"/>
+    <script type="text/javascript" src="/static/js/jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.event.move.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="/static/js/swiper.jquery.min.js"></script>
+    <script src="http://m.lingge1987.com/get_wx_conf"></script>
+    <script src="/static/js/index.js?t=20170522"></script>
+</head>
+<body>
+
+<div id="header">
+    <div class="search">
+        <div class="ss1">
+            <form>
+                <input type="text" name="q" placeholder="搜索关键词" value="{{ q if q  else '' }}">
+            </form>
+            <a href="/">
+                <div class="btn"></div>
+            </a>
+        </div>
+    </div>
+    <div class="tabs">
+        <div id="header1" class="swiper-container">
+            <div class="swiper-wrapper">
+                {% for t in TOPICS %}
+                    <div class="swiper-slide" style="width: 50px"><a href="/?tid={{ t.id }}">{{ t.title }}</a></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="section">
+    {% if tid == 1 %}
+        <!--首页焦点图广告位-->
+
+        <div class="Carousel">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    {% for ad in ads_1 %}
+                        <div class="swiper-slide"><a href="{{ ad.url }}"><img src="{{ ad.img }}"/></a></div>
+                    {% endfor %}
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <div class="section1">
+            <div>
+                <a href="{{ ads_2[1].url }}"><img src="{{ ads_2[1].img }}" class="s1"></a>
+            </div>
+            <div>
+                <a href="{{ ads_2[2].url }}"><img src="{{ ads_2[2].img }}" class="s1"></a>
+            </div>
+            <div>
+                <a href="{{ ads_2[3].url }}"><img src="{{ ads_2[3].img }}" class="s1"></a>
+            </div>
+            <div>
+                <a href="/static/html/spread.html"><img src="/static/img/fx.jpg" class="s1"></a>
+            </div>
+        </div>
+        <div class="section2">
+            {% for ad in ads_3 %}
+                <a href="{{ ad.url }}"><img src="{{ ad.img }}"></a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="section3">
+        <div class="sort">
+            <ul>
+                <li><a href="javascript:ordf(0);" class="ord_active">综合排序</a></li>
+                <li><a href="javascript:ordf(1);">销量</a></li>
+                <li><a href="javascript:ordf(2);">券后价</a></li>
+                {% if request.args.get('q',None) == None %}
+                    <li><a href="javascript:ordf(3)">优惠力度</a></li>
+                {% else %}
+                    <li><a href="javascript:ordf(3)">人气</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="content" id="loaderx">
+
+
+        </div>
+    </div>
+</div>
+<div class="scollTop">
+    <img src="/static/img/663521466215497394.png">
+</div>
+<script>
+
+    var isend = false;
+    var p = 1;
+    var ord = 0;
+
+    var link='{{ request.url }}';
+    {% if q  %}
+        var tid = 1;
+        var q = '{{ q | trim}}';
+    {% else %}
+        var tid = {{ tid }};
+        var q = null;
+    {% endif %}
+</script>
+
+</body>
+</html>

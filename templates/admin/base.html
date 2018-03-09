@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - 系统</title>
+    <script type="text/javascript" src="/static/js/jquery-3.2.0.min.js"></script>
+    <link rel="stylesheet" href="/static/css/semantic.min.css" type="text/css"/>
+    <script type="text/javascript" src="/static/js/semantic.min.js"></script>
+    {% block head %}{% endblock %}
+
+</head>
+<body>
+<div class="ui  menu  " id="mh">
+
+    <div class="ui title right"><h2 style="    margin-left: 74px;"> 灵格优惠券系统 V5.4</h2></div>
+</div>
+<div class="ui grid  " id="btx">
+    <div class="row">
+        <div class="ui two wide column " style="  min-height: 800px ;  background-color: #1b1c1d;">
+            <div class="ui inverted labeled icon vertical  menu   ">
+                <a class="item" href="/admin"><i class="home icon"></i> 后台首页 </a>
+
+
+                <div class="item">
+                    <div class="header">栏目管理</div>
+
+                    <div class="menu">
+
+                        {% for t in TOPICS %}
+                            <a class="item" href="{{ url_for('admin.list_topic',tid=t.id ) }}">{{ t.name }}</a>
+                        {% endfor %}
+
+
+                    </div>
+
+
+                </div>
+                <a class="item" href="/admin/ad_list/1"> 首焦修改 </a>
+                <a class="item" href="/admin/ad_list/2">方块广告位</a>
+                <a class="item" href="/admin/ad_list/3">Banner图修改</a>
+                <a class="item" href="/admin/auto_collect">专享优惠券数据采集</a>
+                <a class="item" href="/admin/bulk_collect">批量上传阿里妈妈优惠券</a>
+                <a class="item" href="/admin/cct_collect">楚楚通批量采集</a>
+                <a class="item" href="/admin/reset_password"> 修改密码 </a>
+                <a class="item" href="/logout"> 退出 </a>
+
+            </div>
+        </div>
+        <div class="ui thirteen wide column   centered">
+            <h3 class="ui dividing  header">{{ self.title() }}</h3>
+
+            <div style="width: 60%">
+
+                {% with messages=get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="ui  message four wide  centered column row">
+                            <div class="column "><p>{{ messages[0] }}</p></div>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $(' .ui.sidebar')
+
+        .sidebar({
+            context: $(' .bottom.segment'),
+            closable: false,
+            dimPage: false
+        })
+        .sidebar('push page')
+
+        .sidebar('attach events', '#mh')
+
+    ;
+
+</script>
+</body>
+</html>

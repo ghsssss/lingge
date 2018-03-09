@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no"/>
+    <meta charset="UTF-8">
+    <title>{{ g.title }}</title>
+    <link rel="stylesheet" href="/static/css/swiper.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/static/css/goods.min.css" type="text/css"/>
+    <script src="/static/js/jquery-3.2.0.min.js"></script>
+    <script src="/static/js/swiper.jquery.min.js"></script>
+    <script src="/static/js/clipboard.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="http://m.lingge1987.com/get_wx_conf"></script>
+</head>
+<body>
+
+
+<div style="-webkit-transform: translateZ(0);">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {% for img in ( g.images | json_loads ) %}
+            <div class="swiper-slide"><img src="{{ img }}_640x640"/></div>
+            {% endfor %}
+        </div>
+
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="tt">
+        <p class="tit">{{ g.title }}</p>
+
+        <p class="p0">￥
+            <span class="pp2">{{ g.after_coupon_price | coonvert_dec }}</span>
+            <img src="/static/img/g1.jpg"/>
+        </p>
+
+        <p class="p1"><span class="pp3">在售价:{{ g.price  | coonvert_dec }}</span>
+            <span class="p01"><img src="/static/img/quan.png"/></span>
+            <div style="text-align: center">
+        <span class="p02">{{ g.coupon_amount }}元</span>
+        <span class="pp4">月销量:{{ g.sell_count }}笔</span>
+    </div>
+
+        </p>
+
+    </div>
+
+    <div id="desc">
+        {% for d in desc %}
+        {{ d | replace("txt", "p") | replace('<img>','<img src="')| replace('</img>','"/>')| safe }}
+        {% endfor %}
+    </div>
+</div>
+<div id="navbar">
+    <div id="home"><a href="/"><img src='/static/img/ab0.jpg'/></a></div>
+    <div id="bt_ljgm"><img src='/static/img/ab2.jpg'/></div>
+    <div id="bt_tkl"><img src='/static/img/ab1.jpg'/></div>
+</div>
+
+
+<div id="kl" class="cx">
+
+    <div class="cparea">
+
+        <div class="fq-background-white am-modal-dialog">
+            <div class="am-modal-hd">
+                淘口令购买
+                <a href="javascript: void(0)" class="am-close am-close-spin" id="xx2">×</a>
+            </div>
+            <div class="am-modal-bd am-padding-0">
+                <!--淘口令-->
+                <!--二合一淘口令开始-->
+                <div class="am-margin-vertical am-margin-horizontal-lg">
+                    <div class="fq-goods-border fq-background-white am-text-center am-margin-top am-padding-vertical"
+                         id="start">
+                        <div class="fq-explain am-center am-text-center">
+                            <span class="fq-nowrap fq-text-white am-padding-horizontal-sm">长按框内 &gt; 全选 &gt; 复制</span>
+                        </div>
+                        <span id="copy_key_ios" class="am-text-center"
+                              style="display: none;font-size:0.4rem;position: relative;top:0.5rem">{{ g.tpwd }}</span>
+                        <textarea style="height: 20px; display: none;position: relative;top:1rem"
+                                  id="copy_key_android" type="text"
+                                  class="am-form-field am-text-sm am-text-center"
+                                  readonly="readonly">{{ g.tpwd }}</textarea>
+                    </div>
+                </div>
+                <!--二合一淘口令结束-->
+                <div class="copy_taowords am-margin-bottom" style="">
+
+                    <div class="am-text-center am-margin-top-sm">
+
+                        <a class="share am-padding-vertical-xs am-padding-horizontal-lg am-round am-inline-block"
+                           id="a1"
+                           data-clipboard-text="{{ g.tpwd }}">
+                            一键复制
+                        </a>
+                        <div class="am-text-xs am-text-primary am-margin-horizontal-sm" id="blue-font">
+                            点击复制后，请打开【手机淘宝】购买！
+                            <br>
+                            注：若复制失败，请手动复制淘口令
+                        </div>
+                    </div>
+                </div>
+                <div class="fq-instructions am-text-left am-text-xs am-padding-vertical-sm am-padding-horizontal-lg">
+                        <span>
+                            <span>使用说明：</span>
+                            <span>复制淘口令后打开【手机淘宝】即可领取优惠券购买！
+                                   </span>
+                        </span>
+                    <br>
+                    <span>
+                            <span>温馨提示：</span>
+                            手机无【手机淘宝】者，可选择浏览器购买方式哦~
+                        </span>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('#a1').click(
+                    function () {
+                        var clipboard = new Clipboard('#a1');
+                        $("#a1").css("background-color", "rgb(158, 210, 158)")
+                        $("#a1").html("已复制")
+                    }
+                )
+
+            });
+
+
+            $(document).ready(function () {
+                    var u = navigator.userAgent;
+                    if (u.indexOf('Android') > -1 || u.indexOf('Adr') > -1) {
+                        $("#copy_key_android").show()
+                    }
+                    if (!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+                        $("#copy_key_ios").show()
+                    }
+                }
+            );
+            document.addEventListener("selectionchange", function (e) {
+                if (window.getSelection().anchorNode.parentNode.id == 'copy_key_ios' && document.getElementById('copy_key_ios').innerText != window.getSelection()) {
+
+                    var key = document.getElementById('copy_key_ios');
+                    window.getSelection().selectAllChildren(key);
+                }
+
+            }, false);
+        </script>
+    </div>
+</div>
+
+<div id="opens" class="cx" style="text-align:center">
+    <div style="margin-top: 1rem">
+        <img id="jpg">
+        <div class="fq-text-white am-text-center am-text-sm"
+             style="position:relative; top:-20px;bottom: 20px;font-size: 0.35rem">
+            温馨提示：
+            <br>
+            有【手机淘宝】的选择淘口令购买方式更方便哦~
+        </div>
+        <div class="fq-text-white am-text-center am-text-sm am-round">
+            <span class="am-round am-padding-vertical-sm am-margin-top am-padding-horizontal am-inline-block more_coupon"
+                  style="background:rgba(254, 222, 20, 0.6);box-shadow: 0 0 0 11px rgba(254, 222, 20, 0.2);"
+                  id="xx3">返回</span>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var u = navigator.userAgent;
+            if (u.indexOf('Android') > -1 || u.indexOf('Adr') > -1) {
+                $("#jpg").attr("src", "/static/img/jump_coupon_android.png")
+            }
+            if (!!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+                $("#jpg").attr("src", "/static/img/jump_coupon_ios.png")
+            }
+
+        })
+    </script>
+</div>
+<div class="scollTop">
+    <img src="/static/img/663521466215497394.png">
+</div>
+<script>
+
+
+    $(function () {
+
+        W = window.innerWidth;
+        H = window.innerHeight;
+        $(".scollTop").click(function () {
+
+                $('html, body').animate({scrollTop: 0}, 'slow');
+            }
+        );
+        $(window).scroll(function () {
+            if ($(document).scrollTop() >= 600) {
+                $(".scollTop").show();
+            } else {
+                $(".scollTop").hide();
+            }
+        });
+        if (W >= H) {
+            W = H * (750 / 1342);
+            $("html").css("font-size", W * 0.1 + 'px');
+
+
+        } else {
+            $("html").css("font-size", W * 0.1 + 'px');
+
+        }
+
+        $("#desc img").removeAttr("width");
+        $("#desc img").removeAttr("height");
+        $("#desc table").removeAttr("width");
+        $("#desc table").removeAttr("height");
+        var W = window.innerWidth
+        $(".swiper-container").css("width", W);
+        $(".swiper-container").css("height", W);
+
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true,
+
+            spaceBetween: 30,
+        });
+        $("#bt_ljgm").on('click', function () {
+            $('html,body').addClass('ovfHiden');//使网页不可滚动
+            $("#opens").show()
+        });
+        $("#xx3").on('click', function () {
+            $('html,body').removeClass('ovfHiden');//使网页恢复可滚
+            $("#opens").hide()
+        });
+
+        $("#bt_tkl").on('click', function () {
+            $(".scollTop").hide();
+            $("#xx2").removeClass("xz");
+            $("body").bind("touchmove", function (event) {
+                event.preventDefault();
+            });
+            $("#kl").fadeIn();
+        });
+        $("#xx2").on('click', function () {
+            $("#xx2").addClass("xz");
+            $("body").unbind("touchmove");
+            $("#kl").fadeOut()
+        });
+
+    });
+</script>
+<script>
+
+
+    wx.ready(function () {
+        // 在这里调用 API
+        // 在这里调用 API
+
+        wx.onMenuShareTimeline({
+            title: '{{ g.title }}', // 分享标题
+            link: 'http://m.lingge1987.com/goods/{{ g.id }}', // 分享链接
+            imgUrl: '{{ g.main_img }}', // 分享图标
+            success: function () {
+
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+
+                // 用户取消分享后执行的回调函数
+            }
+        });
+        wx.onMenuShareAppMessage({
+            title: 'http://m.lingge1987.com/goods/{{ g.id }}', // 分享标题
+            desc: '', // 分享描述
+            link: 'http://m.lingge1987.com/goods/{{ g.id }}', // 分享链接
+            imgUrl: '{{ g.main_img }}', // 分享图标
+            type: 'link', // 分享类型,music、video或link，不填默认为link
+            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+
+                // 用户取消分享后执行的回调函数
+            }
+        });
+    });
+</script>
+
+</body>
+
+</html>

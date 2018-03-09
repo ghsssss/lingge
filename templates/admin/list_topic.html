@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{ topic.name }}栏目管理 {% endblock %}
+{% block content %}
+
+
+    <form class="ui form" method="post" action="/admin/preadd">
+        <div class="field">
+            <label>输入要录入的优惠券链接</label>
+            <div class="fields">
+
+                <div class="six wide field ">
+
+                    <input type="text" name="url">
+                    <input type="hidden" name="tid" value="{{ topic.id }}">
+
+                </div>
+                <div class="field ">
+                    <button class="ui button" type="submit">导入宝贝信息</button>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+    <a class="ui button red" href="{{ url_for('admin.topic_purge',tid=topic.id) }}">清空栏目</a>
+
+    <table class="ui table">
+        <thead>
+        <tr>
+            <th>主图</th>
+            <th>标题</th>
+             <th>过期时间</th>
+            <th>佣金</th>
+            <th>上/下线</th>
+            <th>删除</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for g in gs %}
+            <tr>
+                <td><img class="ui  image" src="
+                        {{ g.main_img }}{% if g.platform_type == 'taobao' or g.platform_type=='tmall' %}_200x200.jpg{% endif %}"
+                         width="120"></td>
+                <td>
+                    <a href="/goods/{{ g.id }}">{{ g.title }}</a><br><span>http://m.lingge1987.com/goods/{{ g.id }}</span>
+                </td>
+               <td>{{ g.end }}</td>
+                <td>{{ g.commissionRate }}</td>
+                <td>       {% if g.status == 1 %}
+                    <a class="ui red button" href="{{ url_for('admin.status_update',id=g.id,status=0) }}">下线</a>
+                {% else %}
+                    <a class="ui green button" href="{{ url_for('admin.status_update',id=g.id,status=1) }}">上线</a>
+                {% endif %}</td>
+                <td><a class="ui black button" href="{{ url_for('admin.goods_delete',id=g.id) }}">删除</a></td>
+
+            </tr>
+
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+
+    {% if p-1 >0 %}
+
+        <a class="ui button" href="{{ url_for('admin.list_topic',tid=topic.id,p=p-1) }}">上页</a>
+    {% endif %}
+    <a class="ui button" href="{{ url_for('admin.list_topic',tid=topic.id,p= p+1) }}">下页</a>
+
+{% endblock %}

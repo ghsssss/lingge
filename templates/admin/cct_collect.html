@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %} 楚楚通数据采集{% endblock %}
+{% block content %}
+
+    <form method="post" class="ui form">
+
+
+        <div class="field">
+            <label>链接</label>
+
+            <input id="urls" name="urls">
+        </div>
+
+        <div class="field">
+            <label>目标栏目</label>
+
+            <div class="ui selection dropdown">
+                <input type="hidden" name="topic_id">
+                <i class="dropdown icon"></i>
+                <div class="default text"></div>
+                <div class="menu">
+                    {% for x in topics %}
+                        <div class="item" data-value="{{ x.id }}">{{ x.name }}</div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="确定">
+    </form>
+    <script>
+    $(function () {
+           $('.dropdown')
+                .dropdown();
+    });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+  wx.config({
+    debug:false,
+    appId: '{{ appid }}',
+    timestamp: {{ss['timestamp'] }} ,
+    nonceStr:  '{{ss['nonceStr'] }}' ,
+    signature: '{{ss['signature'] }}' ,
+  jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'onMenuShareQZone',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+
+      ]
+  });

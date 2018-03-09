@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block title %} 数据采集{% endblock %}
+{% block content %}
+
+    <form method="post" class="ui form">
+
+        <div class="field">
+            <label>申请理由</label>
+            <input type="text" name="reason">
+        </div>
+        <div class="field">
+            <label>阿里妈妈cookie</label>
+            <input type="text" name="cookie">
+        </div>
+
+        <div class="four wide field">
+            <label>佣金比率</label>
+            <input type="text" name="rate" value="0"><span>%以上</span>
+        </div>
+
+        <div class="inline fields">
+            <label>自动审核</label>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="manualAudit" checked="checked" value="0">
+                    <label>是</label>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="manualAudit" value="1">
+                    <label>否</label>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="field">
+            <label>链接</label>
+
+            <textarea id="urls" name="urls"></textarea>
+        </div>
+
+        <div class="field">
+            <label>目标栏目</label>
+
+            <div class="ui selection dropdown">
+                <input type="hidden" name="topic_id">
+                <i class="dropdown icon"></i>
+                <div class="default text"></div>
+                <div class="menu">
+                    {% for x in topics %}
+                        <div class="item" data-value="{{ x.id }}">{{ x.name }}</div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <button class="ui button" id="bt_start">采集</button>
+    <button class="ui button" id="bt_stop">暂停</button>
+    <button class="ui button" id="bt_end">停止</button>
+    <div class="ui indicating progress" id="example5">
+        <div class="bar">
+            <div class="progress"></div>
+        </div>
+        <div class="label">Waiting for you to press button</div>
+    </div>
+
+    <textarea id='log' rows="10" cols="100">
+
+</textarea>
+    <script>
+
+        $(function () {
+            var
+                $progress = $('.ui.progress'),
+                //     $button = $(this),
+                updateEvent
+            ;
+            var cookie, reason, item_index = 0, channel, total = 100, urls, topic_id, rate, manualAudit;
+            var cango = true;
+            var stop = false;
+            $('#bt_stop').on('click', function () {
+                stop = true;
+                clearInterval(window.fakeProgress);
+            });
+            $('#bt_end').on('click', function () {
+                stop = false;
+                cango = true;
+                clearInterval(window.fakeProgress);
+                $progress.progress('reset');
+
+            });
+            $('#bt_start')
+                .on('click', function () {
+
+
+                    cookie = $("input[name='cookie']").val();
+                    reason = $("input[name='reason']").val();
+                    urls = $("#urls").val();
+                    channel = $("input[name='channel']").val();
+                    topic_id = $("input[name='topic_id']").val();
+                    rate = $("input[name='rate']").val();
+                    manualAudit = $("input[name='manualAudit']").val();
+
+                    // restart to zero
+                    clearInterval(window.fakeProgress);
+                    if (!stop) {
+
+                        $progress.progress('reset');
+                    }
+
+                    // updates every 10ms until complete
+                    window.fakeProgress = setInterval(function () {
+
+                        if (cango) {
+
+                            $progress.progress('increment');
+
+
+                            //  $button.text($progress.progress('get value'));
+                            // stop incrementing when complete
+
+                            // postdata();
+                            if ($progress.progress('is complete')) {
+                                clearInterval(window.fakeProgress)
+                            }
+                            //   var idx = $progress.progress('get value');
+
+
+                            postdata();
+                        }
+                    }, 3000);
+
+
+                });
+            $('.ui.progress')
+                .progress({
+                    duration: 200,
+                    total: 100,
+                    text: {
+                        active: '{value} of {total} done'
+                    }
+                })
+            ;
+
+
+            function postdata() {
+
+                cango = false;
+                data = {
+                    cookie: cookie,
+                    reason: reason,
+                    item_index: item_index,
+                    urls: urls,
+                    topic_id: topic_id,
+                    rate: rate,
+                    manualAudit: manualAudit
+                };
+
+                $.ajax({
+                    type: "POST",
+                    //   url: '',
+                    data: data,
+                    success: function (d) {
+                        if (total != 0) {
+                            total = d.total;
+                            $progress.progress('set total', total);
+                        }
+                        if (d.message != '采集成功') {
+                            $("#log").prepend(d.message + " 第" + item_index + '个'+ + d.title+'\r\n');
+                        } else {
+
+
+                            $("#log").prepend(d.message + "  第" + item_index + '个 ' + d.title + '，佣金' + d.rate + '\r\n');
+                        }
+                        if (d.next_index != 0) {
+
+                            item_index = d.next_index;
+                            cango = true;
+                        }
+
+                    }
+                    // dataType: dataType
+                });
+            }
+
+            $('.dropdown')
+                .dropdown();
+        });
+
+
+    </script>
+{% endblock %}
